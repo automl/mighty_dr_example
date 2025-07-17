@@ -1,0 +1,3 @@
+- environment=contextual_minigrid
+- env=MiniGrid-RedBlueDoors-8x8-v0
+- seed=2

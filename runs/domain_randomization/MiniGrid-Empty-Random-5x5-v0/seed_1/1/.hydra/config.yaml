@@ -1,0 +1,96 @@
+runner: standard
+debug: false
+seed: 1
+output_dir: runs
+wandb_project: null
+tensorboard_file: null
+experiment_name: domain_randomization/${env}/seed
+eval_every_n_steps: 10000.0
+n_episodes_eval: 10
+checkpoint: null
+save_model_every_n_steps: 500000.0
+algorithm_kwargs:
+  meta_methods:
+  - mighty_domain_randomization.mighty_syllabus_dr.MightySyllabusDR
+  meta_kwargs:
+  - curriculum_config:
+      curriculum_kwargs:
+        batch_size: ${num_envs}
+  n_policy_units: 8
+  n_critic_units: 8
+  soft_update_weight: 0.01
+  rollout_buffer_class:
+    _target_: mighty.mighty_replay.MightyRolloutBuffer
+  rollout_buffer_kwargs:
+    buffer_size: 2048
+    gamma: 0.99
+    gae_lambda: 0.95
+    obs_shape: ???
+    act_dim: ???
+    n_envs: ???
+    discrete_action: ???
+  learning_rate: 0.001
+  batch_size: 10000
+  gamma: 0.99
+  n_gradient_steps: 10
+  ppo_clip: 0.2
+  value_loss_coef: 0.5
+  entropy_coef: 0.01
+  max_grad_norm: 0.5
+  policy_class: mighty.mighty_exploration.StochasticPolicy
+  policy_kwargs:
+    entropy_coefficient: 0.2
+algorithm: PPO
+num_steps: 100000.0
+env: MiniGrid-Empty-Random-5x5-v0
+env_kwargs: {}
+env_wrappers:
+- mighty_domain_randomization.env_task_wrappers.VecMinigridTaskWrapper
+num_envs: 64
+search_space:
+  hyperparameters:
+    algorithm_kwargs.learning_rate:
+      type: uniform_float
+      lower: 1.0e-05
+      upper: 0.001
+      log: true
+    algorithm_kwargs.batch_size:
+      type: categorical
+      choices:
+      - 8
+      - 16
+      - 32
+      - 64
+      - 128
+      - 256
+      - 512
+    algorithm_kwargs.n_gradient_steps:
+      type: uniform_int
+      lower: 1
+      upper: 20
+      log: false
+    algorithm_kwargs.gamma:
+      type: uniform_float
+      lower: 0.9
+      upper: 0.9999
+      log: false
+    algorithm_kwargs.ppo_clip:
+      type: uniform_float
+      lower: 0.1
+      upper: 0.3
+      log: false
+    algorithm_kwargs.value_loss_coef:
+      type: uniform_float
+      lower: 0.1
+      upper: 1.0
+      log: false
+    algorithm_kwargs.entropy_coef:
+      type: uniform_float
+      lower: 0.0
+      upper: 0.1
+      log: false
+    algorithm_kwargs.max_grad_norm:
+      type: uniform_float
+      lower: 0.1
+      upper: 1.0
+      log: false

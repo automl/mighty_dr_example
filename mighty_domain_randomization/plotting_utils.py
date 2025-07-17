@@ -191,7 +191,6 @@ def _plot_performance_over_time(data: pd.DataFrame, x: str, y: str, hue: str = N
             sets["yscale"] = "log"
         grid.map_dataframe(sns.lineplot, x=x, y=y, marker=marker, errorbar=errorbar, estimator=aggregation).set(**sets)
         grid.fig.subplots_adjust(top=0.92)
-        grid.fig.suptitle(f"{agg_name} over Time (num_seeds={nseeds})")
         grid.set_axis_labels(xlabel, ylabel)
         grid.add_legend()
     else:

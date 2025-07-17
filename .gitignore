@@ -105,8 +105,6 @@ ENV/
 .vscode/
 .idea/
 
-runs/*
-hpo/*
 .editorconfig
 .DS_Store
 uv.lock
