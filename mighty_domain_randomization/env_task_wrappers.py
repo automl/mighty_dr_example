@@ -58,6 +58,13 @@ class VecMinigridTaskWrapper(TaskWrapper):
 
         self.episode_return += rew
         info["task_completion"] = self._task_completion(obs, rew, False, False, info)  # noqa: FBT003
+        
+        # If the environment provides a final observation, make sure to flatten it
+        if "final_observation" in info:
+            done = np.logical_or(term, trunc)
+            for i, d in enumerate(done):
+                if d:
+                    info["final_observation"][i] = gym.spaces.flatten(self.single_observation_space, info["final_observation"][i]["image"])
 
         return obs, rew, term, trunc, info
 

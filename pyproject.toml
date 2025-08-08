@@ -10,7 +10,7 @@ dependencies = [
   "syllabus-rl",
   "minigrid",
   "gymnasium==0.29.1",
-  "mighty-rl",
+  "mighty-rl==1.0.0",
   "rliable",
   "pandas"
 ]
